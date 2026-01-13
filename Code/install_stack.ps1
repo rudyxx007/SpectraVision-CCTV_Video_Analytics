@@ -1,6 +1,6 @@
 # Jio CCTV Analytics - "Dream Team" Installer
 
-Write-Host "🚀 Starting Install for RTX 5050 Stack..." -ForegroundColor Green
+Write-Host "Starting Install for RTX 5050 Stack..." -ForegroundColor Green
 
 # 1. Core Utilities
 pip install opencv-python supervision gitpython pyyaml tqdm scipy ninja
