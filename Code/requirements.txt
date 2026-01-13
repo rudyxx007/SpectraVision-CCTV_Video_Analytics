@@ -1,0 +1,22 @@
+--extra-index-url https://download.pytorch.org/whl/nightly/cu130
+torch
+torchvision
+torchaudio
+opencv-python
+supervision
+gitpython
+pyyaml
+timm
+einops
+transformers
+xgboost
+pandas
+numpy<2.3.0,>=2.0
+plotly
+scikit-learn
+scipy
+accelerate
+decord
+peft
+shortuuid
+bitsandbytes
