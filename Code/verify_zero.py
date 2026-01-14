@@ -11,7 +11,7 @@ print(f"StrongSORT++ Lib: {boxmot.__file__}")
 
 try:
     # Check if Qwen3 is importable (Don't load weights yet)
-    from transformers import Qwen2VLForConditionalGeneration
+    from transformers import Qwen3VLForConditionalGeneration, Qwen3VLConfig
     print("Qwen3-VL Architecture: DETECTED")
 except ImportError:
     print("❌ Qwen3-VL Architecture not found (Transformers update needed)")
