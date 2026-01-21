@@ -24,8 +24,7 @@ def download_reid_weights():
     print(f"📥 Targeting weights at: {reid_path}")
 
     try:
-        # We use torch.device(0) to bypass the 'cuda' string driver bug
-        # while still utilizing your RTX 5050.
+        # 5. Initialize StrongSort to download the weights
         tracker = StrongSort(
             reid_weights=reid_path, 
             device=torch.device(0),

@@ -1,47 +1,35 @@
+from ultralytics import YOLO
 import torch
-import cv2
-import numpy as np
-from sam3 import sam3_model_registry, Sam3Predictor
+import config 
 
-# If you have InternVL weights, uncomment imports below. 
-# For now, let's just get SAM 3 working to see progress.
-# from transformers import AutoModel, AutoTokenizer
+class DualDetector:
+    def __init__(self):
+        print(f"👁️ Vision: Loading YOLO26-Pose & YOLO26-Nano on {config.DEVICE}...")
+        
+        # Model 1: People & Skeletons
+        self.pose_model = YOLO(config.POSE_WEIGHTS)
+        
+        # Model 2: Furniture (Chairs)
+        # We use standard YOLO26n because it's trained on COCO (Class 56 = Chair)
+        self.chair_model = YOLO(config.CHAIR_WEIGHTS)
+        
+        print("✅ Vision: Models Loaded.")
 
-class VisionSystem:
-    def __init__(self, sam_checkpoint):
-        print(f"🚀 Initializing Vision on {torch.cuda.get_device_name(0)}...")
-        
-        # 1. Initialize SAM 3
-        # BFloat16 is the "Secret Weapon" for RTX 50-series speed
-        self.sam = sam3_model_registry["vit_h"](checkpoint=sam_checkpoint)
-        self.sam.to(device="cuda", dtype=torch.bfloat16)
-        
-        # Compile it for Blackwell (RTX 50) optimization
-        # This replaces the need for 'transformer_engine'
-        print("⚡ Compiling Model for RTX 5050...")
-        self.sam = torch.compile(self.sam, mode="reduce-overhead")
-        
-        self.predictor = Sam3Predictor(self.sam)
-
-    def process_frame(self, frame):
+    def detect(self, frame):
         """
-        Input: BGR Frame from OpenCV
-        Output: Masks
+        Returns:
+        1. person_boxes: [x1, y1, x2, y2, conf, cls_id=0]
+        2. chair_boxes:  [x1, y1, x2, y2, conf, cls_id=56]
+        3. keypoints:    [N, 17, 3] (Skeleton data)
         """
-        # Convert to RGB
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        # --- A. People (Pose) ---
+        p_results = self.pose_model(frame, verbose=False, device=config.DEVICE, conf=config.CONF_THRESH)
+        person_boxes = p_results[0].boxes.data.cpu().numpy() 
+        keypoints = p_results[0].keypoints.data.cpu().numpy() 
         
-        # Use Mixed Precision (AMP) for speed
-        with torch.amp.autocast(device_type='cuda', dtype=torch.bfloat16):
-            self.predictor.set_image(rgb_frame)
-            
-            # Simple prompt: Find People and Chairs
-            masks, scores, logits = self.predictor.predict(
-                point_coords=None,
-                point_labels=None,
-                multimask_output=True
-            )
-            
-        return masks
+        # --- B. Chairs (Object) ---
+        # Filter for Class 56 (Chair) immediately
+        c_results = self.chair_model(frame, verbose=False, device=config.DEVICE, classes=[56], conf=0.3)
+        chair_boxes = c_results[0].boxes.data.cpu().numpy()
 
-print("✅ Detector Logic Loaded.")
+        return person_boxes, chair_boxes, keypoints

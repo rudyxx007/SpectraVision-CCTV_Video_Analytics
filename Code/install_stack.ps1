@@ -31,4 +31,8 @@ if (!(Test-Path "SAM3")) {
 }
 pip install -e SAM3 --no-deps
 
+#DOWNLOAD SAM3 WEIGHTS FROM OFFICIAL HUGGING FACE REPO/DOCUMENTATION
+#DOWNLOAD YOLO26-POSE WEIGHTS FROM ULTRALYTICS
+#DOWNLOAD STRONGSORT++ WEIGHTS USING THE get_StrongSORTpp_weights.py SCRIPT
+
 Write-Host "✅ Step 0 Complete. Environment Ready." -ForegroundColor Green
