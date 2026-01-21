@@ -2,25 +2,37 @@ import torch
 from pathlib import Path
 
 # ==================================================
-# PATHS & DIRECTORIES
+# HARDWARE OPTIMIZATION (TENSOR CORES)
 # ==================================================
-# This file is in Code/config.py
+# FIX: Using "cuda:0" ensures compatibility with both YOLO and StrongSORT
+DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
+
+if "cuda" in DEVICE:
+    # Enable TF32 (TensorFloat-32) on Tensor Cores
+    torch.backends.cuda.matmul.allow_tf32 = True
+    torch.backends.cudnn.allow_tf32 = True
+    
+    # Enable cuDNN benchmark 
+    torch.backends.cudnn.benchmark = True
+    
+    # Floating Point 16 (Half Precision)
+    USE_FP16 = True
+else:
+    USE_FP16 = False
+
+# ==================================================
+# PATHS AND DIRECTORIES
+# ==================================================
 CODE_DIR = Path(__file__).resolve().parent
-
-# The data folder is inside the Code folder
 DATA_DIR = CODE_DIR / "data"
-
-# The weights folder is one level up in the project root
 PROJECT_ROOT = CODE_DIR.parent
 WEIGHTS_DIR = PROJECT_ROOT / "weights"
 
-# Subfolders for Data
 INPUT_VIDEO_DIR = DATA_DIR / "input_video"
 OUTPUT_LOGS_DIR = DATA_DIR / "logs"
 MASK_DIR = DATA_DIR / "masks"
 
-# Specific File Paths
-VIDEO_SOURCE = INPUT_VIDEO_DIR / "office_cctv.mp4"
+VIDEO_SOURCE = INPUT_VIDEO_DIR / "cctv_video.mp4"
 ROI_MASK_PATH = MASK_DIR / "room_mask.png" 
 
 # ==================================================
@@ -29,12 +41,6 @@ ROI_MASK_PATH = MASK_DIR / "room_mask.png"
 POSE_MODEL_WEIGHTS = WEIGHTS_DIR / "yolo26s-pose.pt"
 CHAIR_MODEL_WEIGHTS = "yolo26n.pt" 
 REID_WEIGHTS = WEIGHTS_DIR / "osnet_x0_25_msmt17.pt"
-
-# ==================================================
-# HARDWARE SETTINGS
-# ==================================================
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-USE_FP16 = True
 
 # ==================================================
 # AI TUNING PARAMETERS
