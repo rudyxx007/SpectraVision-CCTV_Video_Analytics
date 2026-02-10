@@ -30,29 +30,21 @@ class DualDetector:
     def detect(self, frame):
         """
         Runs both models on the frame.
-        Returns: 
-        1. Person Boxes (from Pose Model)
-        2. Chair Boxes (from Nano Model)
-        3. Keypoints (from Pose Model)
         """
         
         # --- A. Run Pose Model (People) ---
-        # We use the specific confidence threshold from config
-        # verbose=False keeps the console clean
         pose_results = self.pose_model(frame, verbose=False, device=config.DEVICE, conf=config.CONF_THRESH)
         
-        # Extract Data: [x1, y1, x2, y2, conf, class_id]
         if len(pose_results) > 0 and pose_results[0].boxes.data is not None:
             person_boxes = pose_results[0].boxes.data.cpu().numpy() 
-            # Extract Keypoints: [N, 17, 3] (x, y, visibility)
             keypoints = pose_results[0].keypoints.data.cpu().numpy() 
         else:
             person_boxes = np.empty((0, 6))
             keypoints = np.empty((0, 17, 3))
         
         # --- B. Run Object Model (Chairs) ---
-        # We restrict detection to Class 56 (Chair) only
-        chair_results = self.furniture_model(frame, verbose=False, device=config.DEVICE, classes=[56], conf=0.3)
+        # FIX: Changed hardcoded '0.3' to 'config.CONF_THRESH' (0.25)
+        chair_results = self.furniture_model(frame, verbose=False, device=config.DEVICE, classes=[56], conf=config.CONF_THRESH)
         
         if len(chair_results) > 0 and chair_results[0].boxes.data is not None:
             chair_boxes = chair_results[0].boxes.data.cpu().numpy()
