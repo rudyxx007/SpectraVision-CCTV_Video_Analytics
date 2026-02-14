@@ -19,30 +19,40 @@ WEIGHTS_DIR = PROJECT_ROOT / "weights"
 VIDEO_SOURCE = DATA_DIR / "input_video" / "office_cctv.mp4"
 ROI_MASK_PATH = DATA_DIR / "masks" / "room_mask.png" 
 LOGS_DIR = DATA_DIR / "logs"
-LOGS_DIR.mkdir(parents=True, exist_ok=True) # Auto-create
+LOGS_DIR.mkdir(parents=True, exist_ok=True) 
+
+# ==================================================
+# PREPROCESSING
+# ==================================================
+# Preprocessing Switches
+ENABLE_CLAHE = True
+CLAHE_CLIP_LIMIT = 2.0
+CLAHE_GRID_SIZE = (8, 8)
+ENABLE_MEDIAN_BLUR = True
+BLUR_KERNEL_SIZE = 3
 
 # ==================================================
 # MODEL WEIGHTS
 # ==================================================
-# Phase 1
+# Phase 1: Perception
 POSE_MODEL_WEIGHTS = WEIGHTS_DIR / "yolo26s-pose.pt"
 CHAIR_MODEL_WEIGHTS = "yolo26n.pt" 
 REID_WEIGHTS = WEIGHTS_DIR / "osnet_x0_25_msmt17.pt"
 
-# Phase 2 (New)
-SAM_WEIGHTS = WEIGHTS_DIR / "sam_vit_b_01ec64.pth"  # Task 4
-VLM_MODEL_ID = "Qwen/Qwen2-VL-2B-Instruct"         # Task 5 (HuggingFace ID)
+# Phase 2: Verification
+SAM_WEIGHTS = WEIGHTS_DIR / "sam3.pt"  # Your downloaded SAM 3 weights
+VLM_MODEL_ID = "Qwen/Qwen3-VL-2B-Instruct" # HuggingFace Qwen3-VL ID
 
 # ==================================================
-# TUNING
+# THRESHOLDS
 # ==================================================
 CONF_THRESH = 0.25   
 IOU_THRESH = 0.5     
 
 # Logic Thresholds
 SITTING_ANGLE_THRESH = 110
-SAM_TRIGGER_IOU = 0.10     # Only run SAM if box overlap > 10%
-SGG_INTERVAL = 5           # Run VLM every 5 seconds (to save GPU)
+SAM_TRIGGER_IOU = 0.10     
+SGG_INTERVAL = 5.0         
 
 # Dashboard
 KPI_FILE = LOGS_DIR / "kpi_stats.csv"

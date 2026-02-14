@@ -1,46 +1,38 @@
 import torch
 import numpy as np
-import cv2
-from segment_anything import sam_model_registry, SamPredictor
+from ultralytics import SAM
 import config
 
 class SegmentationEngine:
     def __init__(self):
-        print("[INFO] Segmentor: Initializing SAM (Precision Masking)...")
+        print(f"[INFO] Segmentor: Initializing SAM 3 from {config.SAM_WEIGHTS}...")
         try:
-            # We use vit_b (Base) for speed/accuracy balance
-            self.sam = sam_model_registry["vit_b"](checkpoint=str(config.SAM_WEIGHTS))
-            self.sam.to(device=config.DEVICE)
-            self.predictor = SamPredictor(self.sam)
-            print("[SUCCESS] SAM Initialized.")
+            # Ultralytics natively supports SAM 3 .pt weights
+            self.model = SAM(str(config.SAM_WEIGHTS))
+            print("[SUCCESS] SAM 3 Initialized.")
         except Exception as e:
-            print(f"[ERROR] SAM Init Failed (Check weights path): {e}")
-            self.predictor = None
+            print(f"[ERROR] SAM 3 Init Failed (Check weights): {e}")
+            self.model = None
 
     def get_mask_iou(self, frame, boxA, boxB):
-        """
-        Calculates Pixel-wise IoU between two objects using SAM.
-        Input: Frame, BoxA (Person), BoxB (Chair)
-        Output: Mask IoU Score (0.0 to 1.0)
-        """
-        if self.predictor is None: return 0.0
-
-        # Set image once
-        self.predictor.set_image(frame)
-
-        # Predict Mask A (Person)
-        maskA, _, _ = self.predictor.predict(
-            box=np.array(boxA), multimask_output=False
-        )
+        if self.model is None: return 0.0
         
-        # Predict Mask B (Chair)
-        maskB, _, _ = self.predictor.predict(
-            box=np.array(boxB), multimask_output=False
-        )
-
-        # Calculate Intersection/Union on pixels
-        intersection = np.logical_and(maskA[0], maskB[0]).sum()
-        union = np.logical_or(maskA[0], maskB[0]).sum()
-
-        if union == 0: return 0.0
-        return intersection / union
+        try:
+            # SAM 3 natively accepts bounding box prompts
+            results = self.model(frame, bboxes=[boxA.tolist(), boxB.tolist()], verbose=False)
+            
+            if not results or results[0].masks is None: return 0.0
+            
+            masks = results[0].masks.data.cpu().numpy()
+            if len(masks) < 2: return 0.0
+            
+            mA, mB = masks[0].astype(bool), masks[1].astype(bool)
+            
+            # Intersection over Union for pixels
+            intersection = np.logical_and(mA, mB).sum()
+            union = np.logical_or(mA, mB).sum()
+            
+            return intersection / (union + 1e-6)
+        except Exception as e:
+            print(f"[WARNING] SAM 3 Inference Error: {e}")
+            return 0.0
