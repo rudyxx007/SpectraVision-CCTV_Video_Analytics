@@ -262,7 +262,7 @@ with gr.Blocks(title="Jio SpectraVision", css=custom_css, theme=theme) as interf
     """)
     
     # Dashboard Layout (Sidebar + Main Content)
-    with gr.Row(style={"gap": "2rem"}):
+    with gr.Row():
         
         # LEFT COLUMN (Controls)
         with gr.Column(scale=3):
