@@ -167,4 +167,6 @@ with gr.Blocks(title="Operations Overwatch (CCTV Video Analytics)", theme=gr.the
     )
 
 if __name__ == "__main__":
-    interface.launch()
+    # share=True creates a free, temporary public URL (e.g., https://xxxx.gradio.live) 
+    # that tunnels directly to your local GPU!
+    interface.launch(share=True)

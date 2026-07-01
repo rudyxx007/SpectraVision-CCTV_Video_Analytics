@@ -8,8 +8,6 @@
   [![NVIDIA LocateAnything](https://img.shields.io/badge/NVIDIA-LocateAnything--3B-76B900.svg?style=for-the-badge&logo=nvidia)](https://huggingface.co/nvidia/LocateAnything-3B)
   [![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8.svg?style=for-the-badge&logo=opencv)](https://opencv.org/)
   [![Flask](https://img.shields.io/badge/Flask-Web%20Dashboard-000000.svg?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
-
-  **[🔴 LIVE DEMO: Try Operations Overwatch on Hugging Face Spaces](https://huggingface.co/spaces/rudyxx07/CCTV-Operations-Overwatch)**
 </div>
 
 <br/>
@@ -36,18 +34,15 @@ VLMs are incredibly smart but computationally expensive, making 60 FPS real-time
 ### 🛡️ The Guardrails: PAS Hallucination Filtering
 Generative AI can hallucinate objects that aren't there. To make this production-ready for security environments, the pipeline implements a **PAS (Prelim Attention Score) Filter**. If the VLM generates text that lacks strict structural coordinate formatting (`<box><x><y>`), the output is mathematically penalized and gated, ensuring zero false-positive bounding boxes are rendered.
 
-### 👁️‍🗨️ The Interface: Cloud-Native Batch Analytics (`Gradio` + `Hugging Face ZeroGPU`)
+### 👁️‍🗨️ The Interface: Cloud-Native Batch Analytics (`Gradio`)
 A command-line output isn't enough for surveillance. The system spins up a dynamic **Gradio** web interface for video analysis. 
 
-*Technical Note: To effectively showcase this pipeline practically on enterprise cloud infrastructure (like Hugging Face Spaces' shared A100 GPUs), the architecture utilizes a `Video Upload -> Process -> Download` batch system. This intentional design choice circumvents the strict 120-second timeout limits of serverless GPU functions that would otherwise abruptly terminate continuous RTSP streams.*
+*Technical Note: This architecture utilizes a `Video Upload -> Process -> Download` batch system. This intentional design choice allows the application to be deployed flexibly across cloud/serverless environments without being constrained by the timeout limits of continuous RTSP streams.*
 
 ---
 
-## 🚀 Getting Started (Dual Deployment)
+## 🚀 Getting Started
 
-You can run this pipeline either locally on your own GPU, or deploy it directly to a free Hugging Face Space!
-
-### Option 1: Local Execution (RTX Laptops / Desktop GPUs)
 Ensure you have Python 3.10+ installed, then install the heavily optimized requirement stack (including `bitsandbytes` to load the model in 8-bit mode on consumer GPUs):
 
 ```bash
@@ -58,10 +53,8 @@ Run the Gradio application locally:
 ```bash
 python app.py
 ```
-Open the provided `http://127.0.0.1:7860` link in your browser.
 
-### Option 2: Hugging Face Spaces Deployment (ZeroGPU A100s)
-You can deploy this repository exactly as-is to a Hugging Face Space.
-1. Create a new Space on Hugging Face (SDK: `Gradio`).
-2. Push this repository's code to the Space.
-3. Hugging Face's **ZeroGPU** will automatically intercept the `@spaces.GPU` decorators in `app.py`, routing your video processing to a massive A100 GPU cluster completely for free!
+### 🌐 Generating a Public URL for Recruiters
+Because this model requires a GPU, the easiest way to show it to recruiters without paying for cloud servers is via **Gradio Share**.
+
+By running `python app.py`, the code automatically sets `share=True`. This generates a secure, temporary public URL (e.g., `https://xxxx.gradio.live`) that tunnels directly to your laptop's GPU. You can share this link with anyone on the internet, and as long as your script is running, they can upload a video and your RTX 5050 will process it live!
