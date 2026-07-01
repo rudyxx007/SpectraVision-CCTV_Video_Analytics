@@ -9,7 +9,7 @@
   [![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8.svg?style=for-the-badge&logo=opencv)](https://opencv.org/)
   [![Flask](https://img.shields.io/badge/Flask-Web%20Dashboard-000000.svg?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
 
-  **[🔴 LIVE DEMO: Try Operations Overwatch on Hugging Face Spaces](https://huggingface.co/spaces/<YOUR_HF_USERNAME>/CCTV-Operations-Overwatch)**
+  **[🔴 LIVE DEMO: Try Operations Overwatch on Hugging Face Spaces](https://huggingface.co/spaces/rudyxx07/CCTV-Operations-Overwatch)**
 </div>
 
 <br/>
