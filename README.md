@@ -9,7 +9,7 @@
   [![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8.svg?style=for-the-badge&logo=opencv)](https://opencv.org/)
   [![Flask](https://img.shields.io/badge/Flask-Web%20Dashboard-000000.svg?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
   
-  **[🟦 KAGGLE NOTEBOOK: Run Operations Overwatch on Free Cloud GPUs](https://www.kaggle.com/<YOUR_USERNAME>/<YOUR_NOTEBOOK>)**
+  **[🟦 KAGGLE NOTEBOOK: Run Operations Overwatch on Free Cloud GPUs](https://www.kaggle.com/code/rudyxx07/spectravision-cctv-video-analytics/)**
 </div>
 
 <br/>
