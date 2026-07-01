@@ -138,27 +138,101 @@ def process_video_gpu(input_video_path):
     
     print(f"[SUCCESS] Processed {frame_count} frames at {avg_fps:.1f} FPS.")
     
-    kpi_text = (
-        f"### Analytics Summary\n"
-        f"- **Max Detected Occupancy:** {max_occupancy} objects\n"
-        f"- **Frames Processed:** {frame_count}\n"
-        f"- **Engine Processing Speed:** {avg_fps:.1f} FPS"
-    )
+    kpi_html = f"""
+    <div style="display: flex; gap: 1rem; margin-top: 1rem; font-family: sans-serif;">
+        <div style="background: #1f2937; padding: 1.5rem; border-radius: 0.5rem; flex: 1; text-align: center; border: 1px solid #374151; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);">
+            <div style="color: #9ca3af; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;">Max Occupancy</div>
+            <div style="font-size: 2rem; font-weight: bold; margin-top: 0.5rem; color: #ef4444; text-shadow: 0 0 15px rgba(239,68,68,0.8);">{max_occupancy}</div>
+        </div>
+        <div style="background: #1f2937; padding: 1.5rem; border-radius: 0.5rem; flex: 1; text-align: center; border: 1px solid #374151; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);">
+            <div style="color: #9ca3af; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;">Total Frames Processed</div>
+            <div style="font-size: 2rem; font-weight: bold; margin-top: 0.5rem; color: #f8fafc;">{frame_count}</div>
+        </div>
+        <div style="background: #1f2937; padding: 1.5rem; border-radius: 0.5rem; flex: 1; text-align: center; border: 1px solid #374151; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);">
+            <div style="color: #9ca3af; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;">Engine Speed</div>
+            <div style="font-size: 2rem; font-weight: bold; margin-top: 0.5rem; color: #3b82f6; text-shadow: 0 0 15px rgba(59,130,246,0.6);">{avg_fps:.1f} FPS</div>
+        </div>
+    </div>
+    """
                
-    return output_path, kpi_text
+    return output_path, kpi_html
 
-# --- Gradio UI ---
-with gr.Blocks(title="Operations Overwatch (CCTV Video Analytics)", theme=gr.themes.Base()) as interface:
-    gr.Markdown("<div align='center'><h1>👁️ Operations Overwatch</h1><p>Autonomous VLM-Powered Surveillance Engine</p></div>")
+
+# --- SPECTRAVISION ENTERPRISE UI (GRADIO OVERHAUL) ---
+
+custom_css = """
+body, .gradio-container {
+    background-color: #0B1120 !important;
+    color: #e2e8f0 !important;
+    font-family: 'Inter', sans-serif !important;
+}
+.panel, .block {
+    background-color: #111827 !important;
+    border: 1px solid #374151 !important;
+    border-radius: 8px !important;
+}
+button.primary {
+    background-color: #0033CC !important;
+    border-color: #0033CC !important;
+    font-weight: bold !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+    transition: all 0.2s ease !important;
+}
+button.primary:hover {
+    background-color: #002299 !important;
+    box-shadow: 0 0 15px rgba(0, 51, 204, 0.6) !important;
+}
+h1, h2, h3, p, span {
+    color: #e2e8f0 !important;
+}
+.jio-blue { color: #0033CC !important; }
+.header-bar {
+    background-color: #111827;
+    padding: 20px;
+    border-bottom: 1px solid #374151;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+"""
+
+with gr.Blocks(title="Jio SpectraVision | Operations Overwatch", css=custom_css, theme=gr.themes.Base()) as interface:
+    
+    # Custom HTML Header matching the Flask dashboard
+    gr.HTML("""
+    <div class="header-bar">
+        <div>
+            <h1 style="margin: 0; font-size: 1.5rem; font-weight: bold; letter-spacing: 0.1em; color: white;">
+                SPECTRA<span class="jio-blue">VISION</span> 
+                <span style="font-size: 0.875rem; font-weight: normal; color: #9ca3af; margin-left: 8px;">| Operations Overwatch (VLM Edition)</span>
+            </h1>
+        </div>
+        <div style="font-family: monospace; color: #9ca3af; font-size: 0.875rem;">
+            BATCH ANALYTICS ENGINE
+        </div>
+    </div>
+    """)
+    
     gr.Markdown("Upload a CCTV clip (max 20 seconds) to process it using **LocateAnything-3B** and **OC-SORT tracking**.")
     
     with gr.Row():
-        with gr.Column():
-            video_input = gr.Video(label="Input CCTV Video")
-            process_btn = gr.Button("Run Analytics Pipeline", variant="primary")
-        with gr.Column():
-            video_output = gr.Video(label="Processed Output Stream")
-            kpi_output = gr.Markdown("📊 **KPIs will appear here after processing.**")
+        with gr.Column(scale=1):
+            video_input = gr.Video(label="Input CCTV Video", height=400)
+            process_btn = gr.Button("🚀 Run Analytics Pipeline", variant="primary", size="lg")
+        
+        with gr.Column(scale=1):
+            video_output = gr.Video(label="Processed Output Stream", height=400, interactive=False)
+    
+    with gr.Row():
+        kpi_output = gr.HTML("""
+        <div style="text-align: center; padding: 2rem; border: 1px dashed #374151; border-radius: 0.5rem; color: #64748b; margin-top: 1rem;">
+            📊 KPIs will appear here after the engine completes processing.
+        </div>
+        """)
             
     process_btn.click(
         fn=process_video_gpu, 
