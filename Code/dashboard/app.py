@@ -14,25 +14,35 @@ import config
 
 app = Flask(__name__, static_folder='static', static_url_path='/static')
 
+import threading
+
 # --- GLOBALS SHARED WITH MAIN.PY ---
 latest_frame = None
+frame_lock = threading.Lock()
 HEATMAP_ACTIVE = False # Main.py reads this directly to trigger cv2 processing
 
 def update_video_frame(frame):
     """Called by main.py to update the live stream frame."""
     global latest_frame
-    latest_frame = frame
+    with frame_lock:
+        latest_frame = frame
 
 def generate_frames():
     """Generator function to stream the video as MJPEG."""
     global latest_frame
     while True:
-        if latest_frame is None:
+        with frame_lock:
+            if latest_frame is None:
+                current_frame = None
+            else:
+                current_frame = latest_frame.copy()
+                
+        if current_frame is None:
             time.sleep(0.05)
             continue
         
         # Encode the frame as JPEG
-        success, buffer = cv2.imencode('.jpg', latest_frame)
+        success, buffer = cv2.imencode('.jpg', current_frame)
         if not success:
             continue
             
