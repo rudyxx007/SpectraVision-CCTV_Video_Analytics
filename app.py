@@ -138,19 +138,29 @@ def process_video_gpu(input_video_path):
     
     print(f"[SUCCESS] Processed {frame_count} frames at {avg_fps:.1f} FPS.")
     
+    print(f"[SUCCESS] Processed {frame_count} frames at {avg_fps:.1f} FPS.")
+    
     kpi_html = f"""
-    <div style="display: flex; gap: 1rem; margin-top: 1rem; font-family: sans-serif;">
-        <div style="background: #1f2937; padding: 1.5rem; border-radius: 0.5rem; flex: 1; text-align: center; border: 1px solid #374151; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);">
-            <div style="color: #9ca3af; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;">Max Occupancy</div>
-            <div style="font-size: 2rem; font-weight: bold; margin-top: 0.5rem; color: #ef4444; text-shadow: 0 0 15px rgba(239,68,68,0.8);">{max_occupancy}</div>
+    <div style="display: flex; gap: 1.5rem; margin-top: 1rem; font-family: 'Rajdhani', sans-serif;">
+        <div class="kpi-card" style="flex: 1; padding: 1.5rem; border-radius: 12px; background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5); text-align: center; position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; w-full; height: 3px; background: linear-gradient(90deg, transparent, #ef4444, transparent); width: 100%;"></div>
+            <div style="color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600;">Max Occupancy</div>
+            <div style="font-size: 3rem; font-weight: 700; margin-top: 0.5rem; color: #ef4444; text-shadow: 0 0 20px rgba(239,68,68,0.4); line-height: 1;">{max_occupancy}</div>
+            <div style="color: #64748b; font-size: 0.75rem; margin-top: 0.5rem;">Detected Objects</div>
         </div>
-        <div style="background: #1f2937; padding: 1.5rem; border-radius: 0.5rem; flex: 1; text-align: center; border: 1px solid #374151; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);">
-            <div style="color: #9ca3af; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;">Total Frames Processed</div>
-            <div style="font-size: 2rem; font-weight: bold; margin-top: 0.5rem; color: #f8fafc;">{frame_count}</div>
+        
+        <div class="kpi-card" style="flex: 1; padding: 1.5rem; border-radius: 12px; background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5); text-align: center; position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; w-full; height: 3px; background: linear-gradient(90deg, transparent, #3b82f6, transparent); width: 100%;"></div>
+            <div style="color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600;">Frames Processed</div>
+            <div style="font-size: 3rem; font-weight: 700; margin-top: 0.5rem; color: #f8fafc; text-shadow: 0 0 20px rgba(255,255,255,0.2); line-height: 1;">{frame_count}</div>
+            <div style="color: #64748b; font-size: 0.75rem; margin-top: 0.5rem;">Total Batches</div>
         </div>
-        <div style="background: #1f2937; padding: 1.5rem; border-radius: 0.5rem; flex: 1; text-align: center; border: 1px solid #374151; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);">
-            <div style="color: #9ca3af; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;">Engine Speed</div>
-            <div style="font-size: 2rem; font-weight: bold; margin-top: 0.5rem; color: #3b82f6; text-shadow: 0 0 15px rgba(59,130,246,0.6);">{avg_fps:.1f} FPS</div>
+        
+        <div class="kpi-card" style="flex: 1; padding: 1.5rem; border-radius: 12px; background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5); text-align: center; position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; w-full; height: 3px; background: linear-gradient(90deg, transparent, #10b981, transparent); width: 100%;"></div>
+            <div style="color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600;">Inference Speed</div>
+            <div style="font-size: 3rem; font-weight: 700; margin-top: 0.5rem; color: #10b981; text-shadow: 0 0 20px rgba(16,185,129,0.4); line-height: 1;">{avg_fps:.1f}</div>
+            <div style="color: #64748b; font-size: 0.75rem; margin-top: 0.5rem;">Frames per second</div>
         </div>
     </div>
     """
@@ -158,82 +168,133 @@ def process_video_gpu(input_video_path):
     return output_path, kpi_html
 
 
-# --- SPECTRAVISION ENTERPRISE UI (GRADIO OVERHAUL) ---
+# --- ULTRA-PREMIUM SAAS UI OVERHAUL ---
 
 custom_css = """
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Rajdhani:wght@500;600;700&display=swap');
+
+/* Base Theme & Hide Gradio Chrome */
 body, .gradio-container {
-    background-color: #0B1120 !important;
+    background: #020617 !important; /* Tailwind Slate-950 */
+    background-image: 
+        radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+        radial-gradient(at 50% 0%, hsla(225,39%,30%,0.1) 0, transparent 50%), 
+        radial-gradient(at 100% 0%, hsla(339,49%,30%,0.05) 0, transparent 50%) !important;
     color: #e2e8f0 !important;
     font-family: 'Inter', sans-serif !important;
 }
-.panel, .block {
-    background-color: #111827 !important;
-    border: 1px solid #374151 !important;
-    border-radius: 8px !important;
-}
-button.primary {
-    background-color: #0033CC !important;
-    border-color: #0033CC !important;
-    font-weight: bold !important;
-    letter-spacing: 0.05em !important;
-    text-transform: uppercase !important;
-    transition: all 0.2s ease !important;
-}
-button.primary:hover {
-    background-color: #002299 !important;
-    box-shadow: 0 0 15px rgba(0, 51, 204, 0.6) !important;
-}
-h1, h2, h3, p, span {
-    color: #e2e8f0 !important;
-}
-.jio-blue { color: #0033CC !important; }
-.header-bar {
-    background-color: #111827;
-    padding: 20px;
-    border-bottom: 1px solid #374151;
-    margin-bottom: 20px;
-    border-radius: 8px;
+footer { display: none !important; } /* Hide Built with Gradio */
+
+/* Glassmorphism Header */
+.glass-header {
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.5rem 2rem;
+    margin: -20px -20px 2rem -20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
+
+.title-glow {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    margin: 0;
+    background: linear-gradient(to right, #ffffff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.brand-accent { color: #3b82f6; -webkit-text-fill-color: #3b82f6; text-shadow: 0 0 20px rgba(59,130,246,0.5); }
+
+/* Component Styling */
+.panel, .block {
+    background: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: 12px !important;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.2) !important;
+}
+
+/* Run Button */
+button.primary {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    padding: 1rem !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.3) !important;
+}
+button.primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.5) !important;
+}
+
+/* Video Player Tweaks */
+video { border-radius: 8px !important; }
 """
 
-with gr.Blocks(title="Jio SpectraVision | Operations Overwatch", css=custom_css, theme=gr.themes.Base()) as interface:
+# Use a purely dark base theme to override gradio's defaults
+theme = gr.themes.Base(
+    primary_hue="blue",
+    neutral_hue="slate",
+    font=[gr.themes.GoogleFont("Inter"), "sans-serif"]
+)
+
+with gr.Blocks(title="Jio SpectraVision", css=custom_css, theme=theme) as interface:
     
-    # Custom HTML Header matching the Flask dashboard
+    # Ultra-Premium Header
     gr.HTML("""
-    <div class="header-bar">
-        <div>
-            <h1 style="margin: 0; font-size: 1.5rem; font-weight: bold; letter-spacing: 0.1em; color: white;">
-                SPECTRA<span class="jio-blue">VISION</span> 
-                <span style="font-size: 0.875rem; font-weight: normal; color: #9ca3af; margin-left: 8px;">| Operations Overwatch (VLM Edition)</span>
-            </h1>
-        </div>
-        <div style="font-family: monospace; color: #9ca3af; font-size: 0.875rem;">
-            BATCH ANALYTICS ENGINE
+    <div class="glass-header">
+        <h1 class="title-glow">SPECTRA<span class="brand-accent">VISION</span></h1>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background-color: #10b981; box-shadow: 0 0 10px #10b981; animation: pulse 2s infinite;"></div>
+            <span style="font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; color: #94a3b8; letter-spacing: 0.1em; text-transform: uppercase;">A100 Cloud Node Active</span>
         </div>
     </div>
+    <style>@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }</style>
     """)
     
-    # Markdown description removed as requested
-    
-    with gr.Row():
-        with gr.Column(scale=1):
-            # format="mp4" forces Gradio to transcode webcam webm/av1 recordings into standard MP4 for OpenCV
-            video_input = gr.Video(label="Input CCTV Video", height=400, format="mp4")
-            process_btn = gr.Button("🚀 Run Analytics Pipeline", variant="primary", size="lg")
+    # Dashboard Layout (Sidebar + Main Content)
+    with gr.Row(style={"gap": "2rem"}):
         
-        with gr.Column(scale=1):
-            video_output = gr.Video(label="Processed Output Stream", height=400, interactive=False)
-    
-    with gr.Row():
-        kpi_output = gr.HTML("""
-        <div style="text-align: center; padding: 2rem; border: 1px dashed #374151; border-radius: 0.5rem; color: #64748b; margin-top: 1rem;">
-            📊 KPIs will appear here after the engine completes processing.
-        </div>
-        """)
+        # LEFT COLUMN (Controls)
+        with gr.Column(scale=3):
+            gr.HTML("""
+            <div style="margin-bottom: 1.5rem;">
+                <h2 style="font-family: 'Rajdhani', sans-serif; color: #f8fafc; font-size: 1.25rem; font-weight: 600; letter-spacing: 0.05em; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">COMMAND CENTER</h2>
+                <p style="color: #64748b; font-size: 0.85rem; line-height: 1.5; margin-top: 0.5rem;">Upload CCTV footage to the cloud ingest pipeline. The VLM engine will automatically detect and track entities using Zero-Shot spatial reasoning.</p>
+            </div>
+            """)
+            
+            # format="mp4" forces Gradio to transcode webcam webm/av1 recordings into standard MP4 for OpenCV
+            video_input = gr.Video(label="Source Footage", height=320, format="mp4", elem_classes=["panel"])
+            
+            gr.HTML("<div style='height: 1rem;'></div>") # Spacer
+            
+            process_btn = gr.Button("INITIALIZE ANALYTICS", variant="primary")
+        
+        # RIGHT COLUMN (Telemetry & Output)
+        with gr.Column(scale=7):
+            gr.HTML("""
+            <h2 style="font-family: 'Rajdhani', sans-serif; color: #f8fafc; font-size: 1.25rem; font-weight: 600; letter-spacing: 0.05em; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">LIVE TELEMETRY</h2>
+            """)
+            
+            video_output = gr.Video(label="Engine Output Stream", height=450, interactive=False, elem_classes=["panel"])
+            
+            kpi_output = gr.HTML("""
+            <div style="display: flex; align-items: center; justify-content: center; height: 120px; border: 1px dashed rgba(255,255,255,0.1); border-radius: 12px; background: rgba(15, 23, 42, 0.3); margin-top: 1.5rem;">
+                <span style="font-family: 'Rajdhani', sans-serif; color: #475569; font-size: 1.1rem; letter-spacing: 0.1em; text-transform: uppercase;">Awaiting Stream Data...</span>
+            </div>
+            """)
             
     process_btn.click(
         fn=process_video_gpu, 
