@@ -5,6 +5,7 @@
   [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg?style=for-the-badge&logo=python)](https://www.python.org/)
   [![PyTorch](https://img.shields.io/badge/PyTorch-Deep%20Learning-EE4C2C.svg?style=for-the-badge&logo=pytorch)](https://pytorch.org/)
   [![HuggingFace](https://img.shields.io/badge/HuggingFace-Transformers-FFD21E.svg?style=for-the-badge&logo=huggingface)](https://huggingface.co/)
+  [![NVIDIA LocateAnything](https://img.shields.io/badge/NVIDIA-LocateAnything--3B-76B900.svg?style=for-the-badge&logo=nvidia)](https://huggingface.co/nvidia/LocateAnything-3B)
   [![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8.svg?style=for-the-badge&logo=opencv)](https://opencv.org/)
   [![Flask](https://img.shields.io/badge/Flask-Web%20Dashboard-000000.svg?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
 </div>
