@@ -8,6 +8,8 @@
   [![NVIDIA LocateAnything](https://img.shields.io/badge/NVIDIA-LocateAnything--3B-76B900.svg?style=for-the-badge&logo=nvidia)](https://huggingface.co/nvidia/LocateAnything-3B)
   [![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8.svg?style=for-the-badge&logo=opencv)](https://opencv.org/)
   [![Flask](https://img.shields.io/badge/Flask-Web%20Dashboard-000000.svg?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
+
+  **[🔴 LIVE DEMO: Try Operations Overwatch on Hugging Face Spaces](https://huggingface.co/spaces/<YOUR_HF_USERNAME>/CCTV-Operations-Overwatch)**
 </div>
 
 <br/>
