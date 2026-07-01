@@ -138,8 +138,6 @@ def process_video_gpu(input_video_path):
     
     print(f"[SUCCESS] Processed {frame_count} frames at {avg_fps:.1f} FPS.")
     
-    print(f"[SUCCESS] Processed {frame_count} frames at {avg_fps:.1f} FPS.")
-    
     kpi_html = f"""
     <div style="display: flex; gap: 1.5rem; margin-top: 1rem; font-family: 'Rajdhani', sans-serif;">
         <div class="kpi-card" style="flex: 1; padding: 1.5rem; border-radius: 12px; background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5); text-align: center; position: relative; overflow: hidden;">
