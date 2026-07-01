@@ -48,8 +48,8 @@ def process_video_gpu(input_video_path):
     if fps == 0 or np.isnan(fps): fps = 30.0
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     
-    # Cap at 20 seconds to prevent ZeroGPU timeouts
-    max_frames = int(20 * fps)
+    # Cap at 60 seconds to allow longer video processing
+    max_frames = int(60 * fps)
     
     W, H = 1280, 736
     output_path = "output_video.mp4"
@@ -217,11 +217,12 @@ with gr.Blocks(title="Jio SpectraVision | Operations Overwatch", css=custom_css,
     </div>
     """)
     
-    gr.Markdown("Upload a CCTV clip (max 20 seconds) to process it using **LocateAnything-3B** and **OC-SORT tracking**.")
+    # Markdown description removed as requested
     
     with gr.Row():
         with gr.Column(scale=1):
-            video_input = gr.Video(label="Input CCTV Video", height=400)
+            # format="mp4" forces Gradio to transcode webcam webm/av1 recordings into standard MP4 for OpenCV
+            video_input = gr.Video(label="Input CCTV Video", height=400, format="mp4")
             process_btn = gr.Button("🚀 Run Analytics Pipeline", variant="primary", size="lg")
         
         with gr.Column(scale=1):
