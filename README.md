@@ -37,7 +37,7 @@ VLMs are incredibly smart but computationally expensive, making 60 FPS real-time
 Generative AI can hallucinate objects that aren't there. To make this production-ready for security environments, the pipeline implements a **PAS (Prelim Attention Score) Filter**. If the VLM generates text that lacks strict structural coordinate formatting (`<box><x><y>`), the output is mathematically penalized and gated, ensuring zero false-positive bounding boxes are rendered.
 
 ### 👁️‍🗨️ The Interface: Cloud-Native Batch Analytics (`Gradio`)
-A command-line output isn't enough for surveillance. The system spins up a dynamic **Gradio** web interface for video analysis. 
+A command-line output isn't enough for surveillance. The system spins up a dynamic **Gradio** web interface for video analysis, engineered with an ultra-premium, glassmorphism SaaS aesthetic.
 
 *Technical Note: This architecture utilizes a `Video Upload -> Process -> Download` batch system. This intentional design choice allows the application to be deployed flexibly across cloud/serverless environments without being constrained by the timeout limits of continuous RTSP streams.*
 
@@ -57,7 +57,7 @@ python app.py
 ```
 
 ### ☁️ Cloud Deployment via Kaggle (Free GPUs)
-Because this model requires a GPU, the easiest and completely free way to showcase it to recruiters is by running it on a **Kaggle Notebook** with a T4 GPU.
+Because this model requires a GPU, the easiest and completely free way to showcase it to recruiters is by running it on a **Kaggle Notebook** with a T4x2 GPU accelerator.
 
 1. Open a new Kaggle Notebook and turn on the **GPU** (Settings > Accelerator > GPU T4x2).
 2. Clone this repository inside a notebook cell:
