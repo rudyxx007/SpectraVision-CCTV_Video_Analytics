@@ -255,7 +255,7 @@ with gr.Blocks(title="Jio SpectraVision", css=custom_css, theme=theme) as interf
         <h1 class="title-glow">SPECTRA<span class="brand-accent">VISION</span></h1>
         <div style="display: flex; gap: 1rem; align-items: center;">
             <div style="width: 8px; height: 8px; border-radius: 50%; background-color: #10b981; box-shadow: 0 0 10px #10b981; animation: pulse 2s infinite;"></div>
-            <span style="font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; color: #94a3b8; letter-spacing: 0.1em; text-transform: uppercase;">A100 Cloud Node Active</span>
+            <span style="font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; color: #94a3b8; letter-spacing: 0.1em; text-transform: uppercase;">T4x2 Cloud Node Active</span>
         </div>
     </div>
     <style>@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }</style>
