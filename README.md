@@ -7,7 +7,7 @@
   [![HuggingFace](https://img.shields.io/badge/HuggingFace-Transformers-FFD21E.svg?style=for-the-badge&logo=huggingface)](https://huggingface.co/)
   [![NVIDIA LocateAnything](https://img.shields.io/badge/NVIDIA-LocateAnything--3B-76B900.svg?style=for-the-badge&logo=nvidia)](https://huggingface.co/nvidia/LocateAnything-3B)
   [![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8.svg?style=for-the-badge&logo=opencv)](https://opencv.org/)
-  [![Flask](https://img.shields.io/badge/Flask-Web%20Dashboard-000000.svg?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
+  [![Gradio](https://img.shields.io/badge/Gradio-Cloud%20Dashboard-FF7C00.svg?style=for-the-badge&logo=gradio)](https://gradio.app/)
   
   **[🟦 KAGGLE NOTEBOOK: Run Operations Overwatch on Free Cloud GPUs](https://www.kaggle.com/code/rudyxx07/spectravision-cctv-video-analytics/)**
 </div>
