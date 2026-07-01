@@ -8,6 +8,8 @@
   [![NVIDIA LocateAnything](https://img.shields.io/badge/NVIDIA-LocateAnything--3B-76B900.svg?style=for-the-badge&logo=nvidia)](https://huggingface.co/nvidia/LocateAnything-3B)
   [![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8.svg?style=for-the-badge&logo=opencv)](https://opencv.org/)
   [![Flask](https://img.shields.io/badge/Flask-Web%20Dashboard-000000.svg?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
+  
+  **[🟦 KAGGLE NOTEBOOK: Run Operations Overwatch on Free Cloud GPUs](https://www.kaggle.com/<YOUR_USERNAME>/<YOUR_NOTEBOOK>)**
 </div>
 
 <br/>
@@ -54,7 +56,21 @@ Run the Gradio application locally:
 python app.py
 ```
 
-### 🌐 Generating a Public URL for Recruiters
-Because this model requires a GPU, the easiest way to show it to recruiters without paying for cloud servers is via **Gradio Share**.
+### ☁️ Cloud Deployment via Kaggle (Free GPUs)
+Because this model requires a GPU, the easiest and completely free way to showcase it to recruiters is by running it on a **Kaggle Notebook** with a T4 GPU.
 
-By running `python app.py`, the code automatically sets `share=True`. This generates a secure, temporary public URL (e.g., `https://xxxx.gradio.live`) that tunnels directly to your laptop's GPU. You can share this link with anyone on the internet, and as long as your script is running, they can upload a video and your RTX 5050 will process it live!
+1. Open a new Kaggle Notebook and turn on the **GPU** (Settings > Accelerator > GPU T4x2).
+2. Clone this repository inside a notebook cell:
+   ```python
+   !git clone https://github.com/rudyxx007/CCTV-Video-Analytics.git
+   %cd CCTV-Video-Analytics
+   ```
+3. Install the dependencies:
+   ```python
+   !pip install -r requirements.txt
+   ```
+4. Run the Gradio application:
+   ```python
+   !python app.py
+   ```
+Once you run `app.py`, Gradio will automatically generate a secure, temporary public URL (e.g., `https://xxxx.gradio.live`). You can share this link with anyone, and they can upload a video while Kaggle's free GPUs process it live!
