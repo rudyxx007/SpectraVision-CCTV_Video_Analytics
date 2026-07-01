@@ -9,22 +9,31 @@ import config
 class VLMDetector:
     """Unified VLM Detector utilizing nvidia/LocateAnything-3B via native Transformers and bitsandbytes."""
     def __init__(self):
-        print(f"[INFO] VLM Detector: Initializing LocateAnything-3B via Transformers (8-bit Quantized)...")
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.model = None
+        self.tokenizer = None
+        self.processor = None
         
+    def load_model(self):
+        if self.model is not None:
+            return
+            
+        print(f"[INFO] VLM Detector: Lazy-Loading LocateAnything-3B via Transformers (8-bit Quantized)...")
         try:
             from transformers import AutoModel, AutoTokenizer, AutoProcessor
             model_path = "nvidia/LocateAnything-3B"
             
             self.tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
             self.processor = AutoProcessor.from_pretrained(model_path, trust_remote_code=True)
+            
+            # NOTE: We keep load_in_8bit=True to allow local execution on RTX 5050.
             self.model = AutoModel.from_pretrained(
                 model_path,
                 device_map="auto",
                 load_in_8bit=True, # Compress 6GB model to 3GB for RTX 5050
                 trust_remote_code=True,
             ).eval()
-            print("[SUCCESS] Transformers Multimodal Model Initialized.")
+            print("[SUCCESS] Transformers Multimodal Model Initialized on GPU.")
         except Exception as e:
             print(f"[WARNING] Failed to load Transformers model: {e}")
             self.model = None
@@ -36,6 +45,7 @@ class VLMDetector:
 
     @torch.no_grad()
     def predict(self, image: Image.Image, question: str) -> dict:
+        self.load_model()
         if self.model is None:
             return {"answer": ""}
 
@@ -84,6 +94,7 @@ class VLMDetector:
             return {"answer": ""}
 
     def detect_chairs(self, frame_bgr):
+        self.load_model()
         if self.model is None:
             return [], []
 
